@@ -5,10 +5,14 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import {
   useNotificationProvider,
   RefineSnackbarProvider,
+  RefineThemes,
+  ThemedLayout,
+  ThemedTitle,
 } from "@refinedev/mui";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
+import { ThemeProvider } from "@mui/material/styles";
+
 import { BrowserRouter, Route, Routes, Outlet } from "react-router";
 import routerProvider, {
   NavigateToResource,
@@ -28,77 +32,84 @@ import { CreateProduct } from "./pages/products/create";
 function App() {
   return (
     <BrowserRouter>
-      <RefineKbarProvider>
-        <ColorModeContextProvider>
-          <CssBaseline />
-          <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
-          <RefineSnackbarProvider>
-            <DevtoolsProvider>
-              <Refine
-                dataProvider={dataProvider}
-                authProvider={authProvider}
-                notificationProvider={useNotificationProvider}
-                routerProvider={routerProvider}
-                resources={[
-                  {
-                    name: "protected-products",
-                    list: "/products",
-                    show: "/products/:id",
-                    edit: "/products/:id/edit",
-                    create: "/products/create",
-                    meta: { label: "Products" },
-                  },
-                ]}
-                options={{
-                  syncWithLocation: true,
-                  warnWhenUnsavedChanges: true,
-                  projectId: "Yy6LH4-fmUJFI-KvlAqA",
-                }}
-              >
-                <Routes>
-                  <Route
-                    element={
-                      <Authenticated
-                        key="authenticated-routes"
-                        redirectOnFail="/login"
-                      >
-                        <Header />
-                        <Outlet />
-                      </Authenticated>
-                    }
-                  >
+      <ThemeProvider theme={RefineThemes.Blue}>
+        <RefineKbarProvider>
+          <ColorModeContextProvider>
+            <CssBaseline />
+            <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
+            <RefineSnackbarProvider>
+              <DevtoolsProvider>
+                <Refine
+                  dataProvider={dataProvider}
+                  authProvider={authProvider}
+                  notificationProvider={useNotificationProvider}
+                  routerProvider={routerProvider}
+                  resources={[
+                    {
+                      name: "protected-products",
+                      list: "/products",
+                      show: "/products/:id",
+                      edit: "/products/:id/edit",
+                      create: "/products/create",
+                      meta: { label: "Products" },
+                    },
+                  ]}
+                  options={{
+                    syncWithLocation: true,
+                    warnWhenUnsavedChanges: true,
+                    projectId: "Yy6LH4-fmUJFI-KvlAqA",
+                  }}
+                >
+                  <Routes>
                     <Route
-                      index
                       element={
-                        <NavigateToResource resource="protected-products" />
+                        <Authenticated
+                          key="authenticated-routes"
+                          redirectOnFail="/login"
+                        >
+                          <ThemedLayout
+                            Title={(props) => (
+                              <ThemedTitle {...props} text="Awesome Project" />
+                            )}
+                          >
+                            <Outlet />
+                          </ThemedLayout>
+                        </Authenticated>
                       }
-                    />
-                    <Route path="/products">
-                      <Route index element={<ListProducts />} />
-                      <Route path=":id" element={<ShowProduct />} />
-                      <Route path=":id/edit" element={<EditProduct />} />
-                      <Route path="create" element={<CreateProduct />} />
+                    >
+                      <Route
+                        index
+                        element={
+                          <NavigateToResource resource="protected-products" />
+                        }
+                      />
+                      <Route path="/products">
+                        <Route index element={<ListProducts />} />
+                        <Route path=":id" element={<ShowProduct />} />
+                        <Route path=":id/edit" element={<EditProduct />} />
+                        <Route path="create" element={<CreateProduct />} />
+                      </Route>
                     </Route>
-                  </Route>
-                  <Route
-                    element={
-                      <Authenticated key="auth-pages" fallback={<Outlet />}>
-                        <NavigateToResource resource="protected-products" />
-                      </Authenticated>
-                    }
-                  >
-                    <Route path="/login" element={<Login />} />
-                  </Route>
-                </Routes>
-                <RefineKbar />
-                <UnsavedChangesNotifier />
-                <DocumentTitleHandler />
-              </Refine>
-              <DevtoolsPanel />
-            </DevtoolsProvider>
-          </RefineSnackbarProvider>
-        </ColorModeContextProvider>
-      </RefineKbarProvider>
+                    <Route
+                      element={
+                        <Authenticated key="auth-pages" fallback={<Outlet />}>
+                          <NavigateToResource resource="protected-products" />
+                        </Authenticated>
+                      }
+                    >
+                      <Route path="/login" element={<Login />} />
+                    </Route>
+                  </Routes>
+                  <RefineKbar />
+                  <UnsavedChangesNotifier />
+                  <DocumentTitleHandler />
+                </Refine>
+                <DevtoolsPanel />
+              </DevtoolsProvider>
+            </RefineSnackbarProvider>
+          </ColorModeContextProvider>
+        </RefineKbarProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

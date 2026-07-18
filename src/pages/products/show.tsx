@@ -1,12 +1,65 @@
-import { useShow } from "@refinedev/core";
+import { useShow, useOne } from "@refinedev/core";
+import {
+  TextFieldComponent as TextField,
+  NumberField,
+  MarkdownField,
+} from "@refinedev/mui";
+
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
 
 export const ShowProduct = () => {
-  const { query } = useShow();
-  const { data: result, isLoading } = query;
+  const {
+    result: product,
+    query: { isLoading },
+  } = useShow();
 
-  if (isLoading) {
+  const {
+    result: category,
+    query: { isLoading: categoryIsLoading },
+  } = useOne({
+    resource: "categories",
+    id: product?.category?.id || "",
+    queryOptions: {
+      enabled: !!product,
+    },
+  });
+
+  if (isLoading || !product) {
     return <div>Loading...</div>;
   }
 
-  return <div>Product name: {result?.data?.name}</div>;
+  return (
+    <Stack gap={1}>
+      <Typography variant="body1" fontWeight="bold">
+        Id
+      </Typography>
+      <TextField value={product.id} />
+
+      <Typography variant="body1" fontWeight="bold">
+        Name
+      </Typography>
+      <TextField value={product.name} />
+
+      <Typography variant="body1" fontWeight="bold">
+        Description
+      </Typography>
+      <MarkdownField value={product.description} />
+
+      <Typography variant="body1" fontWeight="bold">
+        Material
+      </Typography>
+      <TextField value={product.material} />
+
+      <Typography variant="body1" fontWeight="bold">
+        Category
+      </Typography>
+      <TextField value={categoryIsLoading ? "Loading..." : category?.title} />
+
+      <Typography variant="body1" fontWeight="bold">
+        Price
+      </Typography>
+      <NumberField value={product.price} />
+    </Stack>
+  );
 };
