@@ -23,7 +23,7 @@ import { ListProducts } from "./pages/products/list";
 import { Login } from "./pages/auth/login";
 import { EditProduct } from "./pages/products/edit";
 import { Header } from "./components";
-
+import { CreateProduct } from "./pages/products/create";
 
 function App() {
   return (
@@ -41,10 +41,12 @@ function App() {
                 routerProvider={routerProvider}
                 resources={[
                   {
-                    name: "products",
+                    name: "protected-products",
                     list: "/products",
                     show: "/products/:id",
                     edit: "/products/:id/edit",
+                    create: "/products/create",
+                    meta: { label: "Products" },
                   },
                 ]}
                 options={{
@@ -53,7 +55,6 @@ function App() {
                   projectId: "Yy6LH4-fmUJFI-KvlAqA",
                 }}
               >
-                <Header />
                 <Routes>
                   <Route
                     element={
@@ -61,20 +62,32 @@ function App() {
                         key="authenticated-routes"
                         redirectOnFail="/login"
                       >
+                        <Header />
                         <Outlet />
                       </Authenticated>
                     }
                   >
                     <Route
                       index
-                      element={<NavigateToResource resource="products" />}
+                      element={
+                        <NavigateToResource resource="protected-products" />
+                      }
                     />
-                    <Route path="/products" element={<ListProducts />} />
-                    <Route path="/products/:id" element={<ShowProduct />} />
-                    <Route
-                      path="/products/:id/edit"
-                      element={<EditProduct />}
-                    />
+                    <Route path="/products">
+                      <Route index element={<ListProducts />} />
+                      <Route path=":id" element={<ShowProduct />} />
+                      <Route path=":id/edit" element={<EditProduct />} />
+                      <Route path="create" element={<CreateProduct />} />
+                    </Route>
+                  </Route>
+                  <Route
+                    element={
+                      <Authenticated key="auth-pages" fallback={<Outlet />}>
+                        <NavigateToResource resource="protected-products" />
+                      </Authenticated>
+                    }
+                  >
+                    <Route path="/login" element={<Login />} />
                   </Route>
                 </Routes>
                 <RefineKbar />

@@ -6,9 +6,10 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useGetIdentity, useLogout } from "@refinedev/core";
+import { useGetIdentity, useLogout, useNavigation } from "@refinedev/core";
 import { HamburgerMenu, RefineThemedLayoutHeaderProps } from "@refinedev/mui";
 import React, { useContext } from "react";
+import { Link } from "react-router";
 import { ColorModeContext } from "../../contexts/color-mode";
 
 type IUser = {
@@ -25,6 +26,8 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
   const { mutate, isPending } = useLogout();
 
   const { data: user } = useGetIdentity<IUser>();
+
+  const { listUrl, createUrl } = useNavigation();
 
   return (
     <AppBar position={sticky ? "sticky" : "relative"}>
@@ -72,6 +75,8 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
                   </Typography>
                 )}
                 <Avatar src={user?.avatar} alt={user?.name} />
+                <Link to={listUrl("protected-products")}>List Products</Link>
+                <Link to={createUrl("protected-products")}>Create Product</Link>
                 <button
                   type="button"
                   disabled={isPending}
