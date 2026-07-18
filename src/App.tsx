@@ -24,6 +24,7 @@ import { Login } from "./pages/auth/login";
 import { EditProduct } from "./pages/products/edit";
 import { Header } from "./components";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -58,7 +59,7 @@ function App() {
                     element={
                       <Authenticated
                         key="authenticated-routes"
-                        fallback={<Login />}
+                        redirectOnFail="/login"
                       >
                         <Outlet />
                       </Authenticated>
