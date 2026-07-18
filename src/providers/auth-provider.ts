@@ -25,7 +25,7 @@ export const authProvider: AuthProvider = {
 
     if (data.token) {
       localStorage.setItem("my_access_token", data.token);
-      return { success: true };
+      return { success: true, redirectTo: "/" };
     }
 
     return { success: false };
@@ -33,7 +33,7 @@ export const authProvider: AuthProvider = {
   logout: async () => {
     localStorage.removeItem("my_access_token");
     // We're returning success: true to indicate that the logout operation was successful.
-    return { success: true };
+    return { success: true, redirectTo: "/login" };
   },
   onError: async (error) => {
     if (error?.status === 401) {

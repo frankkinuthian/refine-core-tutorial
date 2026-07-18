@@ -1,7 +1,12 @@
 import { useForm, useSelect } from "@refinedev/core";
 
 export const EditProduct = () => {
-   const { onFinish, mutation, query } = useForm();
+  const { onFinish, mutation, query } = useForm({
+    // This will redirect to the show page after the mutation is successful.
+    // Default value is `"list"`.
+    // We can also provide `false` to disable the redirect.
+    redirect: "show",
+  });
 
   const record = query?.data?.data;
 
