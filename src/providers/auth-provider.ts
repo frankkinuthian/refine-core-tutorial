@@ -45,11 +45,19 @@ export const authProvider: AuthProvider = {
       return null;
     }
 
-    return {
-      id: 1,
-      name: "Demo User",
-      avatar: "https://i.pravatar.cc/150?img=36",
-    };
+    const response = await fetch("https://api.fake-rest.refine.dev/auth/me", {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    if (response.status < 200 || response.status > 299) {
+      return null;
+    }
+
+    const data = await response.json();
+
+    return data;
   },
   // ...
 };
