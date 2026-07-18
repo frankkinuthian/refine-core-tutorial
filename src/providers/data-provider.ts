@@ -2,9 +2,29 @@ import type { DataProvider } from "@refinedev/core";
 
 const API_URL = "https://api.fake-rest.refine.dev";
 
+const fetcher = async (url: string, options?: RequestInit) => {
+  const token = localStorage.getItem("my_access_token");
+
+  if (!token) {
+    return null;
+  }
+
+  return fetch(url, {
+    ...options,
+    headers: {
+      ...options?.headers,
+      Authorization: token,
+    },
+  });
+};
+
 export const dataProvider: DataProvider = {
   getOne: async ({ resource, id }) => {
-    const response = await fetch(`${API_URL}/${resource}/${id}`);
+    const response = await fetcher(`${API_URL}/${resource}/${id}`);
+
+    if (!response) {
+      throw new Error("No response from server");
+    }
 
     if (response.status < 200 || response.status > 299) throw response;
 
@@ -13,13 +33,17 @@ export const dataProvider: DataProvider = {
     return { data };
   },
   create: async ({ resource, variables }) => {
-    const response = await fetch(`${API_URL}/${resource}`, {
+    const response = await fetcher(`${API_URL}/${resource}`, {
       method: "POST",
       body: JSON.stringify(variables),
       headers: {
         "Content-Type": "application/json",
       },
     });
+
+    if (!response) {
+      throw new Error("No response from server");
+    }
 
     if (response.status < 200 || response.status > 299) throw response;
 
@@ -28,13 +52,17 @@ export const dataProvider: DataProvider = {
     return { data };
   },
   update: async ({ resource, id, variables }) => {
-    const response = await fetch(`${API_URL}/${resource}/${id}`, {
+    const response = await fetcher(`${API_URL}/${resource}/${id}`, {
       method: "PATCH",
       body: JSON.stringify(variables),
       headers: {
         "Content-Type": "application/json",
       },
     });
+
+    if (!response) {
+      throw new Error("No response from server");
+    }
 
     if (response.status < 200 || response.status > 299) throw response;
 
@@ -66,7 +94,13 @@ export const dataProvider: DataProvider = {
       });
     }
 
-    const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
+    const response = await fetcher(
+      `${API_URL}/${resource}?${params.toString()}`,
+    );
+
+    if (!response) {
+      throw new Error("No response from server");
+    }
 
     if (response.status < 200 || response.status > 299) throw response;
 
@@ -74,10 +108,9 @@ export const dataProvider: DataProvider = {
 
     const total = Number(response.headers.get("x-total-count"));
 
-
     return {
       data,
-      total, 
+      total,
     };
   },
   getMany: async ({ resource, ids }) => {
@@ -87,7 +120,13 @@ export const dataProvider: DataProvider = {
       ids.forEach((id) => params.append("id", String(id)));
     }
 
-    const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
+    const response = await fetcher(
+      `${API_URL}/${resource}?${params.toString()}`,
+    );
+
+    if (!response) {
+      throw new Error("No response from server");
+    }
 
     if (response.status < 200 || response.status > 299) throw response;
 

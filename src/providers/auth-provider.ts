@@ -35,8 +35,19 @@ export const authProvider: AuthProvider = {
     // We're returning success: true to indicate that the logout operation was successful.
     return { success: true };
   },
-  onError: async () => {
-    throw new Error("Not implemented");
+  onError: async (error) => {
+    if (error?.status === 401) {
+      return {
+        logout: true,
+        error: {
+          message: "Unauthorized",
+          name: "Error",
+          statusCode: error?.status ?? 403,
+        },
+      };
+    }
+
+    return {};
   },
   getIdentity: async () => {
     const token = localStorage.getItem("my_access_token");
