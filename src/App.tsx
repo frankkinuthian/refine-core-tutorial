@@ -26,7 +26,7 @@ import routerProvider, {
 } from "@refinedev/react-router";
 import { dataProvider } from "./providers/data-provider";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { Header } from "./components/header";
+import { ShowProduct } from "./pages/products/show";
 
 function App() {
   return (
@@ -50,6 +50,7 @@ function App() {
               >
                 <Routes>
                   <Route index element={<WelcomePage />} />
+                  <Route path="products/:id" element={<ShowProduct />} />
                 </Routes>
                 <RefineKbar />
                 <UnsavedChangesNotifier />
