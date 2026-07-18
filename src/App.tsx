@@ -24,7 +24,7 @@ import routerProvider, {
   UnsavedChangesNotifier,
   DocumentTitleHandler,
 } from "@refinedev/react-router";
-import { dataProvider } from "./providers/data";
+import { dataProvider } from "./providers/data-provider";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { Header } from "./components/header";
 
