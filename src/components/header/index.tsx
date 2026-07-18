@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useGetIdentity } from "@refinedev/core";
+import { useGetIdentity, useLogout } from "@refinedev/core";
 import { HamburgerMenu, RefineThemedLayoutHeaderProps } from "@refinedev/mui";
 import React, { useContext } from "react";
 import { ColorModeContext } from "../../contexts/color-mode";
@@ -21,6 +21,8 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
   sticky = true,
 }) => {
   const { mode, setMode } = useContext(ColorModeContext);
+
+  const { mutate, isPending } = useLogout();
 
   const { data: user } = useGetIdentity<IUser>();
 
@@ -70,6 +72,13 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
                   </Typography>
                 )}
                 <Avatar src={user?.avatar} alt={user?.name} />
+                <button
+                  type="button"
+                  disabled={isPending}
+                  onClick={() => mutate()}
+                >
+                  Logout
+                </button>
               </Stack>
             )}
           </Stack>

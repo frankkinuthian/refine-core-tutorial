@@ -39,7 +39,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.1(@refinedev/core@5.0.12(@tanstack/react-query@5.101.2(react@19.2.7))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@refinedev/mui':
-        specifier: ^7.0.0
+        specifier: ^7.0.1
         version: 7.0.1(5df84e5ad182a995fcc7a7207f922431)
       '@refinedev/react-hook-form':
         specifier: ^5.0.0
