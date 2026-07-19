@@ -75,15 +75,6 @@ export const Header: React.FC<RefineThemedLayoutHeaderProps> = ({
                   </Typography>
                 )}
                 <Avatar src={user?.avatar} alt={user?.name} />
-                <Link to={listUrl("protected-products")}>List Products</Link>
-                <Link to={createUrl("protected-products")}>Create Product</Link>
-                <button
-                  type="button"
-                  disabled={isPending}
-                  onClick={() => mutate()}
-                >
-                  Logout
-                </button>
               </Stack>
             )}
           </Stack>
