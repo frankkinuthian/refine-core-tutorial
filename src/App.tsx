@@ -29,6 +29,7 @@ import { Login } from "./pages/auth/login";
 import { EditProduct } from "./pages/products/edit";
 import { Header } from "./components";
 import { CreateProduct } from "./pages/products/create";
+import { effectDataProvider } from "./providers/data-provider.effect";
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
             <RefineSnackbarProvider>
               <DevtoolsProvider>
                 <Refine
-                  dataProvider={dataProvider}
+                  dataProvider={effectDataProvider}
                   authProvider={authProvider}
                   notificationProvider={useNotificationProvider}
                   routerProvider={routerProvider}
