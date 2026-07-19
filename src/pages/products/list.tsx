@@ -1,5 +1,5 @@
 import { useSelect } from "@refinedev/core";
-import { useDataGrid, EditButton, ShowButton } from "@refinedev/mui";
+import { List, useDataGrid, EditButton, ShowButton } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import * as React from "react";
 
@@ -97,11 +97,13 @@ export const ListProducts = () => {
   return (
     <div>
       <h1>Products</h1>
-      <DataGrid
-        {...dataGridProps}
-        columns={columns}
-        pageSizeOptions={[10, 25, 50]}
-      />
+      <List>
+        <DataGrid
+          {...dataGridProps}
+          columns={columns}
+          pageSizeOptions={[10, 25, 50]}
+        />
+      </List>
     </div>
   );
 };
