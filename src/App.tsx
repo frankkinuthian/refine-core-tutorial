@@ -24,6 +24,7 @@ import { authProvider } from "./providers/auth-provider";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { ShowProduct } from "./pages/products/show";
 import { ListProducts } from "./pages/products/list";
+import { ListCategories } from "./pages/categories/list";
 import { Login } from "./pages/auth/login";
 import { EditProduct } from "./pages/products/edit";
 import { Header } from "./components";
@@ -52,6 +53,12 @@ function App() {
                       edit: "/products/:id/edit",
                       create: "/products/create",
                       meta: { label: "Products" },
+                    },
+
+                    {
+                      name: "categories",
+                      list: "/categories",
+                      meta: { label: "Categories" },
                     },
                   ]}
                   options={{
@@ -88,6 +95,10 @@ function App() {
                         <Route path=":id" element={<ShowProduct />} />
                         <Route path=":id/edit" element={<EditProduct />} />
                         <Route path="create" element={<CreateProduct />} />
+                      </Route>
+
+                      <Route path="/categories">
+                        <Route index element={<ListCategories />} />
                       </Route>
                     </Route>
                     <Route
